@@ -626,6 +626,12 @@ class SingleAnnotator:
         """
         if prompt_template is None:
             prompt_template = self.prompt_template
+        
+        if 'input' in df_to_annotate.columns:
+            prompt_template = prompt_template['with_inputs']
+        else:
+            prompt_template = prompt_template['without_inputs']
+        
         return utils.make_prompts(df=df_to_annotate, template=prompt_template, batch_size=self.batch_size)
 
     def _preprocess(self, df_to_annotate: pd.DataFrame) -> pd.DataFrame:
